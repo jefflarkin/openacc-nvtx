@@ -35,6 +35,11 @@ Visual Profiler.
     $ export PGI_ACC_PROFLIB=$PATH_TO_LIB/libaccnvtx.so
     $ nvprof -o out.nvp ./a.out
 
+When imported into NVIDIA Visual Profiler data regions (explicit and implicit),
+enter and exit data directives, and update directives will use a red range,
+compute construct kernels (both the `parallel` and `kernels` directives) will
+be green, implicit waits will be yellow, and explicit waits will use a purple
+range.
 
 Notes
 -----
