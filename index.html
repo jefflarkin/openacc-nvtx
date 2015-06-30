@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>Openacc-nvtx by jefflarkin</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>Openacc-nvtx</h1>
+          <h2>This library implements the OpenACC Tools API (as defined in OpenACC 14-2 and implemented in PGI 15.5).</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/jefflarkin/openacc-nvtx/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/jefflarkin/openacc-nvtx/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/jefflarkin/openacc-nvtx" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h1>
+<a id="openacc-nvtx-library" class="anchor" href="#openacc-nvtx-library" aria-hidden="true"><span class="octicon octicon-link"></span></a>OpenACC-NVTX Library</h1>
+
+<p>Author: Jeff Larkin <a href="mailto:jlarkin@nvidia.com">jlarkin@nvidia.com</a></p>
+
+<h2>
+<a id="description" class="anchor" href="#description" aria-hidden="true"><span class="octicon octicon-link"></span></a>Description</h2>
+
+<p>This library is a proof-of-concept libraray demonstrating how the OpenACC Tools
+Interface can be used with the NVIDIA Tools Extensions to provide useful
+information about application performance. It is intended particularly for
+identifying implicit data motion that occurs in OpenACC regions when data
+locality has not been explicitly managed by the programmer. This is done by
+annotating the GPU timeline with NVTX ranges for compute and data constructs.
+When viewed with nvprof or NVIDIA Visual Profiler the programmer will be able
+to time specific GPU events, such as PCIe copies or compute kernels, to the
+OpenACC regions in the code.</p>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<h3>
+<a id="building-the-library" class="anchor" href="#building-the-library" aria-hidden="true"><span class="octicon octicon-link"></span></a>Building the Library</h3>
+
+<p>The library can be built with the <code>make</code> command. It has been testing with PGI
+15.5 and CUDA 7.0.</p>
+
+<h3>
+<a id="using-the-library" class="anchor" href="#using-the-library" aria-hidden="true"><span class="octicon octicon-link"></span></a>Using the Library</h3>
+
+<p>To use the library, set the PGI_ACC_PROFLIB environment variable to point to
+the full path of the shared object file <code>libaccnvtx.so</code>. Then run the program
+using the <code>nvprof</code> command.</p>
+
+<pre><code>$ export PGI_ACC_PROFLIB=$PATH_TO_LIB/libaccnvtx.so
+$ nvprof ./a.out
+</code></pre>
+
+<p>Optionally, you can choose to output a file from nvprof to import into the NVIDIA
+Visual Profiler.</p>
+
+<pre><code>$ export PGI_ACC_PROFLIB=$PATH_TO_LIB/libaccnvtx.so
+$ nvprof -o out.nvp ./a.out
+</code></pre>
+
+<p>When imported into NVIDIA Visual Profiler data regions (explicit and implicit),
+enter and exit data directives, and update directives will use a red range,
+compute construct kernels (both the <code>parallel</code> and <code>kernels</code> directives) will
+be green, implicit waits will be yellow, and explicit waits will use a purple
+range.</p>
+
+<p><img src="images/visual_profiler_sample.png" alt="Screenshot of Visual Profiler using NVTX Ranges for OpenACC constructs."></p>
+
+<h2>
+<a id="notes" class="anchor" href="#notes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Notes</h2>
+
+<p>Future versions of the PGI compiler will implement the final tools API from the
+OpenACC 2.5 spec. The wrappers will be updated at that time.</p>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>Copyright 2015 NVIDIA Corporation</p>
+
+<p>Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at</p>
+
+<pre><code>http://www.apache.org/licenses/LICENSE-2.0
+</code></pre>
+
+<p>Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.</p>
+        </section>
+
+        <footer>
+          Openacc-nvtx is maintained by <a href="https://github.com/jefflarkin">jefflarkin</a><br>
+          This page was generated by <a href="https://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
+    </div>
+  </body>
+</html>
