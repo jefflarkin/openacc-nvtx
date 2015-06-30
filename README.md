@@ -19,7 +19,7 @@ Usage
 
 ### Building the Library ###
 The library can be built with the `make` command. It has been testing with PGI
-15.5 and CUDA 7.5.
+15.5 and CUDA 7.0.
 
 ### Using the Library ###
 To use the library, set the PGI_ACC_PROFLIB environment variable to point to
@@ -34,3 +34,25 @@ Visual Profiler.
 
     $ export PGI_ACC_PROFLIB=$PATH_TO_LIB/libaccnvtx.so
     $ nvprof -o out.nvp ./a.out
+
+
+Notes
+-----
+Future versions of the PGI compiler will implement the final tools API from the
+OpenACC 2.5 spec. The wrappers will be updated at that time.
+
+License
+-------
+Copyright 2015 NVIDIA Corporation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
