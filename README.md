@@ -41,6 +41,8 @@ compute construct kernels (both the `parallel` and `kernels` directives) will
 be green, implicit waits will be yellow, and explicit waits will use a purple
 range.
 
+![Screenshot of Visual Profiler using NVTX Ranges for OpenACC constructs.](images/visual_profiler_sample.png)
+
 Notes
 -----
 Future versions of the PGI compiler will implement the final tools API from the
