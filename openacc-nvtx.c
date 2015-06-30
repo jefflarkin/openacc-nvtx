@@ -27,17 +27,24 @@ void oaccNvtxRegister(acc_prof_info *profinfo,
       eventAttrib.messageType = NVTX_MESSAGE_TYPE_ASCII; 
       eventAttrib.message.ascii = name;
       nvtxRangePushEx(&eventAttrib);
-      fprintf(stderr,"PUSH: %s\n", name);
+#ifdef _DEBUG
+      fprintf(stderr,"PUSH COMPUTE: %s\n", name);
+#endif
       break;
     case acc_ev_data_construct_enter_start :
+#ifdef _DEBUG
+      fprintf(stderr, "PUSH DATA: %s\n", name);
+#endif
       eventAttrib.color = 0xff0000; 
       eventAttrib.messageType = NVTX_MESSAGE_TYPE_ASCII; 
       eventAttrib.message.ascii = name;
       nvtxRangePushEx(&eventAttrib);
       break;
     case acc_ev_compute_construct_end :
-    case acc_ev_data_construct_enter_end :
+    case acc_ev_data_construct_exit_end :
+#ifdef _DEBUG
       fprintf(stderr, "POP\n");
+#endif
       nvtxRangePop();
       break;
   }
@@ -50,7 +57,7 @@ void acc_register_library(regroutine regFunc, regroutine unregFunc)
   regFunc(acc_ev_compute_construct_start, oaccNvtxRegister, 0);
   regFunc(acc_ev_data_construct_enter_start, oaccNvtxRegister, 0);
   regFunc(acc_ev_compute_construct_end, oaccNvtxRegister, 0);
-  regFunc(acc_ev_data_construct_enter_start, oaccNvtxRegister, 0);
+  regFunc(acc_ev_data_construct_exit_end, oaccNvtxRegister, 0);
 }
 
 void __acc_prof_register
