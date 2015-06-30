@@ -32,6 +32,9 @@ void oaccNvtxRegister(acc_prof_info *profinfo,
 #endif
       break;
     case acc_ev_data_construct_enter_start :
+    case acc_ev_enter_data_start :
+//    case acc_ev_update_start :
+    case acc_ev_update_construct_start :
 #ifdef _DEBUG
       fprintf(stderr, "PUSH DATA: %s\n", name);
 #endif
@@ -40,8 +43,31 @@ void oaccNvtxRegister(acc_prof_info *profinfo,
       eventAttrib.message.ascii = name;
       nvtxRangePushEx(&eventAttrib);
       break;
+    case acc_ev_wait_start :
+      eventAttrib.color = 0xff00ff; 
+      eventAttrib.messageType = NVTX_MESSAGE_TYPE_ASCII; 
+      eventAttrib.message.ascii = name;
+      nvtxRangePushEx(&eventAttrib);
+#ifdef _DEBUG
+      fprintf(stderr,"PUSH WAIT: %s\n", name);
+#endif
+      break;
+    case acc_ev_implicit_wait_start :
+      eventAttrib.color = 0xffff00; 
+      eventAttrib.messageType = NVTX_MESSAGE_TYPE_ASCII; 
+      eventAttrib.message.ascii = name;
+      nvtxRangePushEx(&eventAttrib);
+#ifdef _DEBUG
+      fprintf(stderr,"PUSH WAIT: %s\n", name);
+#endif
+      break;
     case acc_ev_compute_construct_end :
     case acc_ev_data_construct_exit_end :
+    case acc_ev_exit_data_end :
+//    case acc_ev_update_end :
+    case acc_ev_update_construct_end :
+    case acc_ev_wait_end :
+    case acc_ev_implicit_wait_end :
 #ifdef _DEBUG
       fprintf(stderr, "POP\n");
 #endif
@@ -56,8 +82,18 @@ void acc_register_library(regroutine regFunc, regroutine unregFunc)
   fprintf(stderr, "REGISTERING NVTX LIBRARY\n");
   regFunc(acc_ev_compute_construct_start, oaccNvtxRegister, 0);
   regFunc(acc_ev_data_construct_enter_start, oaccNvtxRegister, 0);
+  regFunc(acc_ev_enter_data_start, oaccNvtxRegister, 0);
+//  regFunc(acc_ev_update_start, oaccNvtxRegister, 0);
+  regFunc(acc_ev_update_construct_start, oaccNvtxRegister, 0);
+  regFunc(acc_ev_wait_start, oaccNvtxRegister, 0);
+  regFunc(acc_ev_implicit_wait_start, oaccNvtxRegister, 0);
   regFunc(acc_ev_compute_construct_end, oaccNvtxRegister, 0);
   regFunc(acc_ev_data_construct_exit_end, oaccNvtxRegister, 0);
+  regFunc(acc_ev_exit_data_end, oaccNvtxRegister, 0);
+//  regFunc(acc_ev_update_end, oaccNvtxRegister, 0);
+  regFunc(acc_ev_update_construct_end, oaccNvtxRegister, 0);
+  regFunc(acc_ev_wait_end, oaccNvtxRegister, 0);
+  regFunc(acc_ev_implicit_wait_end, oaccNvtxRegister, 0);
 }
 
 void __acc_prof_register
