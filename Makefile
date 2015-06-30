@@ -11,3 +11,9 @@ openacc-nvtx.o: openacc-nvtx.c
 liboaccnvtx.a: openacc-nvtx.o
 	$(AR) cr $@ $^
 
+.PHONY: clean realclean
+clean: 
+	rm -rf *.o core
+
+realclean: clean
+	rm -rf *.so *.a
