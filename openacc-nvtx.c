@@ -16,7 +16,7 @@
 #include <stdio.h>
 #include <openacc.h>
 // Prior to PGI 15.7 the profiling interface prototype was based on TR-14-2.
-#if defined(__PGIC__) && ((__PGIC__ >= 15) && (__PGIC_MINOR__ < 7))
+#if defined(__PGIC__) && ((__PGIC__ <= 15) && (__PGIC_MINOR__ < 7))
 #include <pgi_acc_prof.h>
 #else
 #include <acc_prof.h>
@@ -38,13 +38,13 @@ void oaccNvtxRegister(acc_prof_info *profinfo,
   eventAttrib.size = NVTX_EVENT_ATTRIB_STRUCT_SIZE; 
   eventAttrib.colorType = NVTX_COLOR_ARGB; 
 
-#if defined(__PGIC__) && ((__PGIC__ >= 15) && (__PGIC_MINOR__ < 7))
+#if defined(__PGIC__) && ((__PGIC__ <= 15) && (__PGIC_MINOR__ < 7))
   snprintf(name, bufsize, "%s:%d", profinfo->funcname, profinfo->lineno);
 #else
   snprintf(name, bufsize, "%s:%d", profinfo->func_name, profinfo->line_no);
 #endif
 
-#if defined(__PGIC__) && ((__PGIC__ >= 15) && (__PGIC_MINOR__ < 7))
+#if defined(__PGIC__) && ((__PGIC__ <= 15) && (__PGIC_MINOR__ < 7))
   switch(profinfo->eventtype) 
 #else
   switch(profinfo->event_type) 
@@ -59,11 +59,11 @@ void oaccNvtxRegister(acc_prof_info *profinfo,
       fprintf(stderr,"PUSH COMPUTE: %s\n", name);
 #endif
       break;
-#if defined(__PGIC__) && ((__PGIC__ >= 15) && (__PGIC_MINOR__ < 7))
+#if defined(__PGIC__) && ((__PGIC__ <= 15) && (__PGIC_MINOR__ < 7))
     case acc_ev_data_construct_enter_start :
 #endif
     case acc_ev_enter_data_start :
-#if defined(__PGIC__) && ((__PGIC__ >= 15) && (__PGIC_MINOR__ < 7))
+#if defined(__PGIC__) && ((__PGIC__ <= 15) && (__PGIC_MINOR__ < 7))
     case acc_ev_update_construct_start :
 #else
     case acc_ev_update_start :
@@ -95,11 +95,11 @@ void oaccNvtxRegister(acc_prof_info *profinfo,
 #endif
       break;
     case acc_ev_compute_construct_end :
-#if defined(__PGIC__) && ((__PGIC__ >= 15) && (__PGIC_MINOR__ < 7))
+#if defined(__PGIC__) && ((__PGIC__ <= 15) && (__PGIC_MINOR__ < 7))
     case acc_ev_data_construct_exit_end :
 #endif
     case acc_ev_exit_data_end :
-#if defined(__PGIC__) && ((__PGIC__ >= 15) && (__PGIC_MINOR__ < 7))
+#if defined(__PGIC__) && ((__PGIC__ <= 15) && (__PGIC_MINOR__ < 7))
     case acc_ev_update_construct_end :
 #else
     case acc_ev_update_end :
@@ -115,7 +115,7 @@ void oaccNvtxRegister(acc_prof_info *profinfo,
 }
 
 typedef void (*regroutine)( acc_event_t, acc_prof_callback_t, int );
-#if defined(__PGIC__) && ((__PGIC__ >= 15) && (__PGIC_MINOR__ < 7))
+#if defined(__PGIC__) && ((__PGIC__ <= 15) && (__PGIC_MINOR__ < 7))
 void acc_register_library(regroutine regFunc, regroutine unregFunc)
 #else
 void acc_register_library(acc_prof_reg regFunc, acc_prof_reg unregFunc, acc_prof_lookup lookup)
@@ -124,7 +124,7 @@ void acc_register_library(acc_prof_reg regFunc, acc_prof_reg unregFunc, acc_prof
   fprintf(stderr, "REGISTERING NVTX LIBRARY\n");
   regFunc(acc_ev_compute_construct_start, oaccNvtxRegister, 0);
   regFunc(acc_ev_enter_data_start, oaccNvtxRegister, 0);
-#if defined(__PGIC__) && ((__PGIC__ >= 15) && (__PGIC_MINOR__ < 7))
+#if defined(__PGIC__) && ((__PGIC__ <= 15) && (__PGIC_MINOR__ < 7))
   regFunc(acc_ev_data_construct_enter_start, oaccNvtxRegister, 0);
   regFunc(acc_ev_data_construct_exit_end, oaccNvtxRegister, 0);
   regFunc(acc_ev_update_construct_start, oaccNvtxRegister, 0);
