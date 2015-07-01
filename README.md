@@ -22,17 +22,18 @@ The library can be built with the `make` command. It has been testing with PGI
 15.5 and CUDA 7.0.
 
 ### Using the Library ###
-To use the library, set the PGI_ACC_PROFLIB environment variable to point to
+To use the library, set the ACC_PROFLIB environment variable to point to
 the full path of the shared object file `libaccnvtx.so`. Then run the program
-using the `nvprof` command.
+using the `nvprof` command. If you are using a version of PGI before version
+15.7, set the PGI_ACC_PROFLIB environment variable instead.
 
-    $ export PGI_ACC_PROFLIB=$PATH_TO_LIB/libaccnvtx.so
+    $ export ACC_PROFLIB=$PATH_TO_LIB/libaccnvtx.so
     $ nvprof ./a.out
 
 Optionally, you can choose to output a file from nvprof to import into the NVIDIA
 Visual Profiler.
 
-    $ export PGI_ACC_PROFLIB=$PATH_TO_LIB/libaccnvtx.so
+    $ export ACC_PROFLIB=$PATH_TO_LIB/libaccnvtx.so
     $ nvprof -o out.nvp ./a.out
 
 When imported into NVIDIA Visual Profiler data regions (explicit and implicit),
